@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import artworksRouter from "./routes/artworks.js";
 import authRouter from "./routes/auth.js";
+import auctionsRouter from "./routes/auctions.js";
+import portraitsRouter from "./routes/portraits.js";
+import poemsRouter from "./routes/poems.js";
 
 dotenv.config();
 
@@ -16,6 +19,9 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/artworks", artworksRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/auctions", auctionsRouter);
+app.use("/api/portraits", portraitsRouter);
+app.use("/api/poems", poemsRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

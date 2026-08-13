@@ -30,6 +30,12 @@ export default function Navbar() {
         <NavLink to="/auctions" className={linkClass}>
           Auctions
         </NavLink>
+        <NavLink to="/portraits" className={linkClass}>
+          Portraits
+        </NavLink>
+        <NavLink to="/poems" className={linkClass}>
+          Poems
+        </NavLink>
       </div>
 
       {/* Right: Search Icon */}

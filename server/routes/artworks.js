@@ -85,3 +85,48 @@ router.post("/", verifyAdmin, upload.single("image"), async (req, res) => {
 });
 
 export default router;
+// PUT /:id - edit an artwork (admin only)
+router.put("/:id", verifyAdmin, async (req, res) => {
+  try {
+    const { title, description, medium, dimensions, yearCreated } = req.body;
+
+    const artwork = await prisma.artwork.update({
+      where: { id: Number(req.params.id) },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(medium !== undefined && { medium }),
+        ...(dimensions !== undefined && { dimensions }),
+        ...(yearCreated !== undefined && { yearCreated: Number(yearCreated) }),
+      },
+    });
+
+    res.json(artwork);
+  } catch (error) {
+    console.error("Error updating artwork:", error);
+    res.status(500).json({ error: "Failed to update artwork" });
+  }
+});
+
+// DELETE /:id - delete an artwork (admin only)
+router.delete("/:id", verifyAdmin, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    // Delete related auction/bids first if they exist (avoids foreign key errors)
+    const auction = await prisma.auction.findUnique({
+      where: { artworkId: id },
+    });
+    if (auction) {
+      await prisma.bid.deleteMany({ where: { auctionId: auction.id } });
+      await prisma.auction.delete({ where: { id: auction.id } });
+    }
+
+    await prisma.artwork.delete({ where: { id } });
+
+    res.json({ message: "Artwork deleted" });
+  } catch (error) {
+    console.error("Error deleting artwork:", error);
+    res.status(500).json({ error: "Failed to delete artwork" });
+  }
+});

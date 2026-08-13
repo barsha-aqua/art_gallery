@@ -27,12 +27,14 @@ model Auction {
   reservePrice         Float
   currentHighestBid    Float?
   currentHighestBidder String?
+  currentHighestEmail  String?
   status               String    @default("open")
   createdAt            DateTime  @default(now())
+  endsAt               DateTime
   closedAt             DateTime?
+  winnerNotified       Boolean   @default(false)
   bids                 Bid[]
 }
-
 model Bid {
   id            Int      @id @default(autoincrement())
   auctionId     Int
@@ -48,4 +50,17 @@ model AdminUser {
   id           Int    @id @default(autoincrement())
   email        String @unique
   passwordHash String
+}
+model SelfPortrait {
+  id          Int      @id @default(autoincrement())
+  imageUrl    String
+  caption     String?
+  createdAt   DateTime @default(now())
+}
+
+model Poem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime @default(now())
 }

@@ -60,14 +60,12 @@ export default function Gallery() {
               to={`/artwork/${artwork.id}`}
               className="block relative group break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-stone-100"
             >
-              {/* Using aspect ratios could make it more "masonry" but since images dictate height, we just use auto height */}
               <img
                 src={artwork.imageUrl}
                 alt={artwork.title}
                 className="w-full h-auto object-cover"
                 loading="lazy"
               />
-              {/* Hover Overlay */}
               <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                 <h3 className="text-white font-serif text-xl mb-1">
                   {artwork.title}
