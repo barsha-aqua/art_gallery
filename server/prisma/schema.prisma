@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Artwork {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  medium      String?
+  dimensions  String?
+  yearCreated Int?
+  imageUrl    String
+  status      String   @default("available")
+  createdAt   DateTime @default(now())
+  auction     Auction?
+}
+
+model Auction {
+  id                   Int       @id @default(autoincrement())
+  artworkId            Int       @unique
+  artwork              Artwork   @relation(fields: [artworkId], references: [id])
+  reservePrice         Float
+  currentHighestBid    Float?
+  currentHighestBidder String?
+  status               String    @default("open")
+  createdAt            DateTime  @default(now())
+  closedAt             DateTime?
+  bids                 Bid[]
+}
+
+model Bid {
+  id            Int      @id @default(autoincrement())
+  auctionId     Int
+  auction       Auction  @relation(fields: [auctionId], references: [id])
+  bidderName    String
+  bidderEmail   String
+  bidderMessage String?
+  amount        Float
+  createdAt     DateTime @default(now())
+}
+
+model AdminUser {
+  id           Int    @id @default(autoincrement())
+  email        String @unique
+  passwordHash String
+}
