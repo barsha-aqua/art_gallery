@@ -37,7 +37,7 @@ export default function About() {
           </div>
           <div>
             <button className="bg-stone-200 hover:bg-stone-300 text-stone-700 font-medium px-8 py-3 rounded text-xs tracking-widest uppercase transition-colors">
-              Learn More
+              Barsha Yadav
             </button>
           </div>
         </div>

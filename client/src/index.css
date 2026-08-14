@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +8,13 @@
   --color-terracotta: #b5533c;
   --color-midnight: #0d1526;
   --color-terracotta-light: #e8886b;
+}
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-poem: "Special Elite", monospace;
+  --color-canvas: #faf6f0;
+  --color-terracotta: #b5533c;
 }
 
 html,

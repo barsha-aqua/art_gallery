@@ -46,7 +46,7 @@ export default function Auctions() {
           Active Auctions
         </h1>
         <p className="text-stone-500 max-w-lg mx-auto">
-          Place your bid on one-of-a-kind pieces before time runs out.
+          Place your bid on one of a kind pieces before time runs out.
         </p>
       </div>
 
@@ -68,7 +68,7 @@ export default function Auctions() {
             No active auctions right now
           </p>
           <p className="text-sm">
-            Check back soon — new pieces go live regularly.
+            Check back soon. new pieces go live regularly.
           </p>
         </div>
       )}
