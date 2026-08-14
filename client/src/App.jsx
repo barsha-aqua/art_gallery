@@ -10,7 +10,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Auctions from "./pages/Auctions";
 import SelfPortraits from "./pages/SelfPortraits";
 import Poems from "./pages/Poems";
-import heroImage from "./assets/hero_warm_tinted.png";
+import Terms from "./pages/Terms";
+import heroImage from "./assets/hero_rose_vintage.jpg";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           className="flex-grow relative bg-fixed bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-stone-50/50" />
+          <div className="absolute inset-0 bg-canvas/60" />
           <div className="relative z-10">
             <Routes>
               <Route path="/" element={<Gallery />} />
@@ -34,6 +35,7 @@ function App() {
               <Route path="/auctions" element={<Auctions />} />
               <Route path="/portraits" element={<SelfPortraits />} />
               <Route path="/poems" element={<Poems />} />
+              <Route path="/terms" element={<Terms />} />
               <Route
                 path="*"
                 element={

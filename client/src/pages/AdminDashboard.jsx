@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import AdminNav from "../components/AdminNav";
+import heroImage from "../assets/hero_rose_vintage.jpg";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -261,278 +262,292 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-canvas font-sans flex flex-col">
       <AdminNav />
-      <div className="p-10">
-        {/* SECTION 1: Upload New Artwork */}
-        <h1 className="font-serif text-2xl text-stone-800 mb-6">
-          Upload New Artwork
-        </h1>
-
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-lg shadow-sm max-w-md space-y-4"
-        >
-          {message && <p className="text-green-600 text-sm">{message}</p>}
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">Title *</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              rows={3}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm text-stone-600 mb-1">
-                Medium
-              </label>
-              <input
-                type="text"
-                value={medium}
-                onChange={(e) => setMedium(e.target.value)}
-                className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-stone-600 mb-1">
-                Dimensions
-              </label>
-              <input
-                type="text"
-                value={dimensions}
-                onChange={(e) => setDimensions(e.target.value)}
-                className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">
-              Year Created
-            </label>
-            <input
-              type="number"
-              value={yearCreated}
-              onChange={(e) => setYearCreated(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">Image *</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImageFile(e.target.files[0])}
-              className="w-full text-sm"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
-          >
-            {loading ? "Uploading..." : "Upload Artwork"}
-          </button>
-        </form>
-
-        {/* SECTION 2: Start an Auction */}
-        <h2 className="font-serif text-2xl text-stone-800 mt-14 mb-6">
-          Start an Auction
-        </h2>
-
-        <form
-          onSubmit={handleAuctionSubmit}
-          className="bg-white p-6 rounded-lg shadow-sm max-w-md space-y-4"
-        >
-          {auctionMessage && (
-            <p className="text-green-600 text-sm">{auctionMessage}</p>
-          )}
-          {auctionError && (
-            <p className="text-red-500 text-sm">{auctionError}</p>
-          )}
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">
-              Artwork *
-            </label>
-            {artworksLoading ? (
-              <p className="text-xs text-stone-400">Loading artworks…</p>
-            ) : artworks.length === 0 ? (
-              <p className="text-xs text-stone-400 italic">
-                No artworks available for auction.
-              </p>
-            ) : (
-              <select
-                value={selectedArtworkId}
-                onChange={(e) => setSelectedArtworkId(e.target.value)}
-                className="w-full border border-stone-300 rounded px-3 py-2 text-sm bg-white"
-                required
+      <div
+        className="flex-grow relative bg-fixed bg-cover bg-center"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="absolute inset-0 bg-canvas/70" />
+        <div className="relative z-10 p-6 md:p-10 max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            
+            {/* SECTION 1: Upload New Artwork */}
+            <div className="flex flex-col">
+              <h1 className="font-serif text-2xl text-stone-800 mb-4 font-semibold">
+                Upload New Artwork
+              </h1>
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white p-6 rounded-lg shadow-sm flex-grow space-y-4 w-full"
               >
-                <option value="">— Select an artwork —</option>
-                {artworks.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.title}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
+                {message && <p className="text-green-600 text-sm">{message}</p>}
+                {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm text-stone-600 mb-1">
-                Reserve Price ($) *
-              </label>
-              <input
-                type="number"
-                min="1"
-                step="0.01"
-                value={reservePrice}
-                onChange={(e) => setReservePrice(e.target.value)}
-                placeholder="e.g. 500"
-                className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-                required
-              />
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">Title *</label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    rows={3}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm text-stone-600 mb-1">
+                      Medium
+                    </label>
+                    <input
+                      type="text"
+                      value={medium}
+                      onChange={(e) => setMedium(e.target.value)}
+                      className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-stone-600 mb-1">
+                      Dimensions
+                    </label>
+                    <input
+                      type="text"
+                      value={dimensions}
+                      onChange={(e) => setDimensions(e.target.value)}
+                      className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Year Created
+                  </label>
+                  <input
+                    type="number"
+                    value={yearCreated}
+                    onChange={(e) => setYearCreated(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">Image *</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                    className="w-full text-sm"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
+                >
+                  {loading ? "Uploading..." : "Upload Artwork"}
+                </button>
+              </form>
             </div>
-            <div>
-              <label className="block text-sm text-stone-600 mb-1">
-                Duration (days)
-              </label>
-              <input
-                type="number"
-                min="1"
-                value={durationDays}
-                onChange={(e) => setDurationDays(e.target.value)}
-                className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              />
+
+            {/* SECTION 2: Start an Auction */}
+            <div className="flex flex-col">
+              <h2 className="font-serif text-2xl text-stone-800 mb-4 font-semibold">
+                Start an Auction
+              </h2>
+              <form
+                onSubmit={handleAuctionSubmit}
+                className="bg-white p-6 rounded-lg shadow-sm flex-grow space-y-4 w-full"
+              >
+                {auctionMessage && (
+                  <p className="text-green-600 text-sm">{auctionMessage}</p>
+                )}
+                {auctionError && (
+                  <p className="text-red-500 text-sm">{auctionError}</p>
+                )}
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Artwork *
+                  </label>
+                  {artworksLoading ? (
+                    <p className="text-xs text-stone-400">Loading artworks…</p>
+                  ) : artworks.length === 0 ? (
+                    <p className="text-xs text-stone-400 italic">
+                      No artworks available for auction.
+                    </p>
+                  ) : (
+                    <select
+                      value={selectedArtworkId}
+                      onChange={(e) => setSelectedArtworkId(e.target.value)}
+                      className="w-full border border-stone-300 rounded px-3 py-2 text-sm bg-white"
+                      required
+                    >
+                      <option value="">— Select an artwork —</option>
+                      {artworks.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {a.title}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm text-stone-600 mb-1">
+                      Reserve Price ($) *
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      step="0.01"
+                      value={reservePrice}
+                      onChange={(e) => setReservePrice(e.target.value)}
+                      placeholder="e.g. 500"
+                      className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-stone-600 mb-1">
+                      Duration (days)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={durationDays}
+                      onChange={(e) => setDurationDays(e.target.value)}
+                      className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={auctionLoading || artworks.length === 0}
+                  className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
+                >
+                  {auctionLoading ? "Starting Auction..." : "Start Auction"}
+                </button>
+              </form>
             </div>
+
+            {/* SECTION 3: Upload Self-Portrait */}
+            <div className="flex flex-col">
+              <h2 className="font-serif text-2xl text-stone-800 mb-4 font-semibold">
+                Upload Self-Portrait
+              </h2>
+              <form
+                onSubmit={handlePortraitSubmit}
+                className="bg-white p-6 rounded-lg shadow-sm flex-grow space-y-4 w-full"
+              >
+                {portraitMessage && (
+                  <p className="text-green-600 text-sm">{portraitMessage}</p>
+                )}
+                {portraitError && (
+                  <p className="text-red-500 text-sm">{portraitError}</p>
+                )}
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Caption (optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={portraitCaption}
+                    onChange={(e) => setPortraitCaption(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">Image *</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setPortraitFile(e.target.files[0])}
+                    className="w-full text-sm"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={portraitLoading}
+                  className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
+                >
+                  {portraitLoading ? "Uploading..." : "Upload Portrait"}
+                </button>
+              </form>
+            </div>
+
+            {/* SECTION 4: Add a Poem */}
+            <div className="flex flex-col">
+              <h2 className="font-serif text-2xl text-stone-800 mb-4 font-semibold">
+                Add a Poem
+              </h2>
+              <form
+                onSubmit={handlePoemSubmit}
+                className="bg-white p-6 rounded-lg shadow-sm flex-grow space-y-4 w-full"
+              >
+                {poemMessage && (
+                  <p className="text-green-600 text-sm">{poemMessage}</p>
+                )}
+                {poemError && <p className="text-red-500 text-sm">{poemError}</p>}
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">Title *</label>
+                  <input
+                    type="text"
+                    value={poemTitle}
+                    onChange={(e) => setPoemTitle(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Content *
+                  </label>
+                  <textarea
+                    value={poemContent}
+                    onChange={(e) => setPoemContent(e.target.value)}
+                    className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
+                    rows={8}
+                    placeholder="Line breaks are preserved..."
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={poemLoading}
+                  className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
+                >
+                  {poemLoading ? "Adding..." : "Add Poem"}
+                </button>
+              </form>
+            </div>
+
           </div>
-
-          <button
-            type="submit"
-            disabled={auctionLoading || artworks.length === 0}
-            className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
-          >
-            {auctionLoading ? "Starting Auction..." : "Start Auction"}
-          </button>
-        </form>
-
-        {/* SECTION 3: Upload Self-Portrait */}
-        <h2 className="font-serif text-2xl text-stone-800 mt-14 mb-6">
-          Upload Self-Portrait
-        </h2>
-
-        <form
-          onSubmit={handlePortraitSubmit}
-          className="bg-white p-6 rounded-lg shadow-sm max-w-md space-y-4"
-        >
-          {portraitMessage && (
-            <p className="text-green-600 text-sm">{portraitMessage}</p>
-          )}
-          {portraitError && (
-            <p className="text-red-500 text-sm">{portraitError}</p>
-          )}
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">
-              Caption (optional)
-            </label>
-            <input
-              type="text"
-              value={portraitCaption}
-              onChange={(e) => setPortraitCaption(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">Image *</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setPortraitFile(e.target.files[0])}
-              className="w-full text-sm"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={portraitLoading}
-            className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
-          >
-            {portraitLoading ? "Uploading..." : "Upload Portrait"}
-          </button>
-        </form>
-
-        {/* SECTION 4: Add a Poem */}
-        <h2 className="font-serif text-2xl text-stone-800 mt-14 mb-6">
-          Add a Poem
-        </h2>
-
-        <form
-          onSubmit={handlePoemSubmit}
-          className="bg-white p-6 rounded-lg shadow-sm max-w-md space-y-4"
-        >
-          {poemMessage && (
-            <p className="text-green-600 text-sm">{poemMessage}</p>
-          )}
-          {poemError && <p className="text-red-500 text-sm">{poemError}</p>}
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">Title *</label>
-            <input
-              type="text"
-              value={poemTitle}
-              onChange={(e) => setPoemTitle(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-stone-600 mb-1">
-              Content *
-            </label>
-            <textarea
-              value={poemContent}
-              onChange={(e) => setPoemContent(e.target.value)}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm"
-              rows={8}
-              placeholder="Line breaks are preserved..."
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={poemLoading}
-            className="w-full bg-orange-800 text-white py-2 rounded text-sm font-medium hover:bg-orange-900 transition-colors disabled:opacity-50"
-          >
-            {poemLoading ? "Adding..." : "Add Poem"}
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export default function Gallery() {
       </div>
 
       {loading && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           Loading gallery...
         </div>
       )}
@@ -47,7 +47,7 @@ export default function Gallery() {
       )}
 
       {!loading && !error && artworks.length === 0 && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           No artworks currently available.
         </div>
       )}
@@ -58,21 +58,23 @@ export default function Gallery() {
             <Link
               key={artwork.id}
               to={`/artwork/${artwork.id}`}
-              className="block relative group break-inside-avoid rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-stone-100"
+              className="block break-inside-avoid rounded-xl bg-white p-2.5 shadow-[0_4px_16px_rgba(90,60,40,0.10),0_1px_3px_rgba(90,60,40,0.06)] hover:shadow-md transition-shadow duration-300"
             >
-              <img
-                src={artwork.imageUrl}
-                alt={artwork.title}
-                className="w-full h-auto object-cover"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                <h3 className="text-white font-serif text-xl mb-1">
-                  {artwork.title}
-                </h3>
-                <p className="text-stone-200 text-sm">
-                  {artwork.medium || "Mixed Media"}
-                </p>
+              <div className="relative group overflow-hidden rounded-md">
+                <img
+                  src={artwork.imageUrl}
+                  alt={artwork.title}
+                  className="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 className="text-white font-serif text-xl mb-1">
+                    {artwork.title}
+                  </h3>
+                  <p className="text-stone-300 text-sm">
+                    {artwork.medium || "Mixed Media"}
+                  </p>
+                </div>
               </div>
             </Link>
           ))}

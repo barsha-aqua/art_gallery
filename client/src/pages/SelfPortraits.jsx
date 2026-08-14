@@ -25,7 +25,7 @@ export default function SelfPortraits() {
   }, []);
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-12 md:py-20 min-h-screen">
+    <div className="w-full max-w-3xl mx-auto px-6 md:px-12 py-12 md:py-20 min-h-screen">
       <div className="text-center mb-16">
         <h1 className="font-serif text-4xl md:text-5xl text-terracotta mb-4 font-semibold">
           Self Portraits
@@ -36,7 +36,7 @@ export default function SelfPortraits() {
       </div>
 
       {loading && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           Loading...
         </div>
       )}
@@ -48,17 +48,17 @@ export default function SelfPortraits() {
       )}
 
       {!loading && !error && portraits.length === 0 && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           No portraits yet.
         </div>
       )}
 
       {!loading && !error && portraits.length > 0 && (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="space-y-16">
           {portraits.map((portrait) => (
             <div
               key={portrait.id}
-              className="break-inside-avoid rounded-2xl overflow-hidden shadow-sm bg-stone-100"
+              className="rounded-2xl overflow-hidden shadow-lg bg-white"
             >
               <img
                 src={portrait.imageUrl}
@@ -67,7 +67,7 @@ export default function SelfPortraits() {
                 loading="lazy"
               />
               {portrait.caption && (
-                <p className="text-stone-500 text-sm text-center py-3 px-4 font-serif italic">
+                <p className="text-stone-600 text-base text-center py-4 px-4 font-serif italic">
                   {portrait.caption}
                 </p>
               )}

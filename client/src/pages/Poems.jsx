@@ -25,7 +25,7 @@ export default function Poems() {
   }, []);
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-6 md:px-12 py-12 md:py-20 min-h-screen">
+    <div className="w-full max-w-3xl mx-auto px-6 md:px-12 py-12 md:py-20 min-h-screen">
       <div className="text-center mb-16">
         <h1 className="font-serif text-4xl md:text-5xl text-terracotta mb-4 font-semibold">
           Poems
@@ -36,7 +36,7 @@ export default function Poems() {
       </div>
 
       {loading && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           Loading...
         </div>
       )}
@@ -48,20 +48,23 @@ export default function Poems() {
       )}
 
       {!loading && !error && poems.length === 0 && (
-        <div className="flex justify-center items-center py-20 text-stone-400">
+        <div className="flex justify-center items-center py-20 text-stone-500">
           No poems yet.
         </div>
       )}
 
       {!loading && !error && poems.length > 0 && (
-        <div className="space-y-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {poems.map((poem) => (
-            <div key={poem.id} className="text-center">
-              <h2 className="font-serif text-2xl text-stone-800 mb-4">
+            <div
+              key={poem.id}
+              className="bg-white rounded-2xl shadow-lg p-8 text-center"
+            >
+              <h2 className="font-serif text-xl text-stone-800 mb-4">
                 {poem.title}
               </h2>
               <p
-                className="text-stone-600 font-serif leading-relaxed"
+                className="text-stone-600 font-serif leading-relaxed text-sm"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {poem.content}

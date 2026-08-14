@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function getDaysRemaining(endsAt) {
   if (!endsAt) return null;
@@ -275,7 +275,10 @@ export default function ArtworkDetail() {
                         {bidLoading ? "Placing Bid..." : <>Place Bid <span>&rarr;</span></>}
                       </button>
                       <p className="text-[10px] text-stone-400 text-center font-medium uppercase tracking-wider mt-4">
-                        By placing a bid, you agree to our Terms of Auction.
+                        By placing a bid, you agree to our{" "}
+                        <Link to="/terms" className="underline underline-offset-2 hover:text-terracotta transition-colors">
+                          Terms of Auction
+                        </Link>.
                       </p>
                     </form>
                   </div>
