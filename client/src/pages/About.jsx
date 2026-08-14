@@ -16,20 +16,23 @@ export default function About() {
 
         <div className="w-full md:w-1/2 flex flex-col">
           <h1 className="font-serif text-4xl md:text-5xl text-stone-800 leading-tight mb-8">
-            Finding quiet in the chaos of texture.
+            Logic and feelings.
           </h1>
           <div className="text-stone-600 space-y-6 text-sm leading-relaxed mb-10">
             <p>
-              Based in a sunlit studio on the coast, my work explores the
-              intersection of organic form and rigorous geometry. I believe that
-              true elegance lies in restraint, allowing the inherent qualities
-              of raw materials to speak over excessive ornamentation.
+              I paint what I cannot say, write what I cannot explain, take
+              photos of myself that I have not yet figured out. And my art comes
+              in different forms, ranging from paintings to poetry to
+              self-portraits, often inspired by quiet moments, fleeting
+              emotions, imperfect details, and beauty in the ordinary things. It
+              seems nice to make something without always having to understand
+              it. One brush stroke doesn’t have to be sure. The poem doesn’t
+              need to end up perfect. A photograph will always give a glimpse of
+              who I am in ways words never could.
             </p>
             <p>
-              Drawing inspiration from modernist architecture and the slow
-              erosion of natural landscapes, each piece is an invitation to
-              pause. The process is tactile and meditative, often involving
-              layering and excavating surfaces to reveal hidden topographies.
+              This place is my gallery of things I make while trying to figure
+              myself out. one painting, one poem, and one frame at a time.
             </p>
           </div>
           <div>

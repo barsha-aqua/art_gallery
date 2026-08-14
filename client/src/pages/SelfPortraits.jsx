@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000/api";
 
 export default function SelfPortraits() {
   const [portraits, setPortraits] = useState([]);
@@ -31,7 +35,7 @@ export default function SelfPortraits() {
           Self Portraits
         </h1>
         <p className="text-stone-500 max-w-lg mx-auto">
-          A visual diary — moments, faces, and reflections.
+          A visual diary of moments, faces, and reflections.
         </p>
       </div>
 

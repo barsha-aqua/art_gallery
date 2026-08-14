@@ -2,7 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import AdminNav from "../components/AdminNav";
 import heroImage from "../assets/hero_rose_vintage.jpg";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000/api";
 
 function getToken() {
   return localStorage.getItem("adminToken");
@@ -119,7 +123,6 @@ export default function AdminManage() {
           {status && <p className="text-sm text-stone-500 mb-6">{status}</p>}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            
             {/* ── Artworks Column ── */}
             <div className="bg-white/90 backdrop-blur p-6 rounded-xl shadow-sm border border-stone-200/50 flex flex-col">
               <h2 className="font-serif text-xl text-stone-800 mb-4 pb-2 border-b border-stone-200 font-semibold">
@@ -127,7 +130,10 @@ export default function AdminManage() {
               </h2>
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                 {artworks.map((item) => (
-                  <div key={item.id} className="bg-white rounded-lg shadow-sm border border-stone-100 p-4">
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-lg shadow-sm border border-stone-100 p-4"
+                  >
                     {editingItem?.type === "artworks" &&
                     editingItem.id === item.id ? (
                       <div className="space-y-2">
@@ -137,7 +143,10 @@ export default function AdminManage() {
                           onChange={(e) =>
                             setEditingItem({
                               ...editingItem,
-                              data: { ...editingItem.data, title: e.target.value },
+                              data: {
+                                ...editingItem.data,
+                                title: e.target.value,
+                              },
                             })
                           }
                           placeholder="Title"
@@ -164,7 +173,10 @@ export default function AdminManage() {
                             onChange={(e) =>
                               setEditingItem({
                                 ...editingItem,
-                                data: { ...editingItem.data, medium: e.target.value },
+                                data: {
+                                  ...editingItem.data,
+                                  medium: e.target.value,
+                                },
                               })
                             }
                             placeholder="Medium"
@@ -223,8 +235,12 @@ export default function AdminManage() {
                             className="w-12 h-12 object-cover rounded bg-stone-100"
                           />
                           <div>
-                            <p className="font-serif text-stone-800 font-medium text-sm">{item.title}</p>
-                            <p className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider">{item.status}</p>
+                            <p className="font-serif text-stone-800 font-medium text-sm">
+                              {item.title}
+                            </p>
+                            <p className="text-[10px] text-stone-400 font-semibold uppercase tracking-wider">
+                              {item.status}
+                            </p>
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -255,7 +271,10 @@ export default function AdminManage() {
               </h2>
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                 {portraits.map((item) => (
-                  <div key={item.id} className="bg-white rounded-lg shadow-sm border border-stone-100 p-4">
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-lg shadow-sm border border-stone-100 p-4"
+                  >
                     {editingItem?.type === "portraits" &&
                     editingItem.id === item.id ? (
                       <div className="space-y-2">
@@ -265,7 +284,10 @@ export default function AdminManage() {
                           onChange={(e) =>
                             setEditingItem({
                               ...editingItem,
-                              data: { ...editingItem.data, caption: e.target.value },
+                              data: {
+                                ...editingItem.data,
+                                caption: e.target.value,
+                              },
                             })
                           }
                           placeholder="Caption"
@@ -325,8 +347,12 @@ export default function AdminManage() {
               </h2>
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                 {poems.map((item) => (
-                  <div key={item.id} className="bg-white rounded-lg shadow-sm border border-stone-100 p-4">
-                    {editingItem?.type === "poems" && editingItem.id === item.id ? (
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-lg shadow-sm border border-stone-100 p-4"
+                  >
+                    {editingItem?.type === "poems" &&
+                    editingItem.id === item.id ? (
                       <div className="space-y-2">
                         <input
                           className="w-full border border-stone-300 rounded px-2 py-1 text-sm bg-white"
@@ -334,7 +360,10 @@ export default function AdminManage() {
                           onChange={(e) =>
                             setEditingItem({
                               ...editingItem,
-                              data: { ...editingItem.data, title: e.target.value },
+                              data: {
+                                ...editingItem.data,
+                                title: e.target.value,
+                              },
                             })
                           }
                           placeholder="Title"
@@ -345,7 +374,10 @@ export default function AdminManage() {
                           onChange={(e) =>
                             setEditingItem({
                               ...editingItem,
-                              data: { ...editingItem.data, content: e.target.value },
+                              data: {
+                                ...editingItem.data,
+                                content: e.target.value,
+                              },
                             })
                           }
                           rows={5}
@@ -367,7 +399,9 @@ export default function AdminManage() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-between">
-                        <p className="font-serif text-stone-800 font-medium text-sm">{item.title}</p>
+                        <p className="font-serif text-stone-800 font-medium text-sm">
+                          {item.title}
+                        </p>
                         <div className="flex gap-2">
                           <button
                             onClick={() => startEdit("poems", item)}
@@ -388,7 +422,6 @@ export default function AdminManage() {
                 ))}
               </div>
             </div>
-
           </div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 function getTimeRemaining(endsAt) {
   if (!endsAt) return null;
   const diff = new Date(endsAt) - new Date();
@@ -18,14 +20,14 @@ export default function Auctions() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/artworks")
+    fetch(`${API_URL}/artworks`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch artworks");
         return res.json();
       })
       .then((data) => {
         const open = data.filter(
-          (a) => a.auction && a.auction.status === "open"
+          (a) => a.auction && a.auction.status === "open",
         );
         setAuctions(open);
         setLoading(false);
@@ -65,7 +67,9 @@ export default function Auctions() {
           <p className="font-serif text-xl text-stone-500 mb-2">
             No active auctions right now
           </p>
-          <p className="text-sm">Check back soon — new pieces go live regularly.</p>
+          <p className="text-sm">
+            Check back soon — new pieces go live regularly.
+          </p>
         </div>
       )}
 
@@ -82,7 +86,6 @@ export default function Auctions() {
                 to={`/artwork/${artwork.id}`}
                 className="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white"
               >
-                {/* Image */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-stone-100">
                   <img
                     src={artwork.imageUrl}
@@ -90,13 +93,11 @@ export default function Auctions() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  {/* Time badge */}
                   <span className="absolute top-4 right-4 bg-white/90 backdrop-blur text-xs font-semibold text-terracotta px-3 py-1 rounded-full shadow-sm">
                     {timeLeft}
                   </span>
                 </div>
 
-                {/* Info */}
                 <div className="p-5">
                   <h3 className="font-serif text-lg text-stone-800 mb-1 group-hover:text-terracotta transition-colors">
                     {artwork.title}

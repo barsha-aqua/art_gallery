@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 function getDaysRemaining(endsAt) {
   if (!endsAt) return null;
   const diff = new Date(endsAt) - new Date();
@@ -18,7 +20,6 @@ export default function ArtworkDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ── Bid form state ──
   const [bidderName, setBidderName] = useState("");
   const [bidderEmail, setBidderEmail] = useState("");
   const [bidAmount, setBidAmount] = useState("");
@@ -26,12 +27,11 @@ export default function ArtworkDetail() {
   const [bidSuccess, setBidSuccess] = useState("");
   const [bidError, setBidError] = useState("");
 
-  // ── Collapsible auction state ──
   const [auctionOpen, setAuctionOpen] = useState(false);
   const auctionContentRef = useRef(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/artworks/${id}`)
+    fetch(`${API_URL}/artworks/${id}`)
       .then((res) => {
         if (!res.ok) {
           if (res.status === 404) throw new Error("Artwork not found");
@@ -63,18 +63,15 @@ export default function ArtworkDetail() {
     setBidLoading(true);
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/auctions/${artwork.auction.id}/bid`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bidderName: bidderName.trim(),
-            bidderEmail: bidderEmail.trim(),
-            amount: Number(bidAmount),
-          }),
-        }
-      );
+      const res = await fetch(`${API_URL}/auctions/${artwork.auction.id}/bid`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bidderName: bidderName.trim(),
+          bidderEmail: bidderEmail.trim(),
+          amount: Number(bidAmount),
+        }),
+      });
 
       const data = await res.json();
 
@@ -82,7 +79,6 @@ export default function ArtworkDetail() {
         throw new Error(data.error || "Failed to place bid");
       }
 
-      // Update the displayed highest bid without a full page refresh
       setArtwork((prev) => ({
         ...prev,
         auction: {
@@ -128,8 +124,6 @@ export default function ArtworkDetail() {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20 min-h-screen">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-        
-        {/* Left: Image */}
         <div className="w-full lg:w-1/2">
           <div className="rounded-2xl overflow-hidden shadow-md bg-stone-100">
             <img
@@ -140,9 +134,7 @@ export default function ArtworkDetail() {
           </div>
         </div>
 
-        {/* Right: Details & Auction */}
         <div className="w-full lg:w-1/2 flex flex-col">
-          
           <div className="mb-10">
             <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">
               From the Selected Works Collection
@@ -151,19 +143,25 @@ export default function ArtworkDetail() {
               {artwork.title}
             </h1>
 
-            {/* Metadata Row */}
             <div className="grid grid-cols-3 gap-4 border-t border-stone-200 pt-6 mb-8 text-sm">
               <div>
                 <p className="font-semibold text-stone-600 mb-1">Medium</p>
-                <p className="text-stone-500">{artwork.medium || "Mixed Media"}</p>
+                <p className="text-stone-500">
+                  {artwork.medium || "Mixed Media"}
+                </p>
               </div>
               <div>
                 <p className="font-semibold text-stone-600 mb-1">Dimensions</p>
-                <p className="text-stone-500">{artwork.dimensions || "Variable"}</p>
+                <p className="text-stone-500">
+                  {artwork.dimensions || "Variable"}
+                </p>
               </div>
               <div>
                 <p className="font-semibold text-stone-600 mb-1">Year</p>
-                <p className="text-stone-500">{artwork.yearCreated || new Date(artwork.createdAt).getFullYear()}</p>
+                <p className="text-stone-500">
+                  {artwork.yearCreated ||
+                    new Date(artwork.createdAt).getFullYear()}
+                </p>
               </div>
             </div>
 
@@ -173,10 +171,8 @@ export default function ArtworkDetail() {
             </p>
           </div>
 
-          {/* Auction toggle — only when auction exists and is open */}
           {isAuctionOpen && (
             <div className="mt-2">
-              {/* Subtle toggle pill */}
               <button
                 type="button"
                 onClick={() => setAuctionOpen((v) => !v)}
@@ -185,13 +181,14 @@ export default function ArtworkDetail() {
                 Buy this art at auction
                 <span
                   className="inline-block transition-transform duration-300"
-                  style={{ transform: auctionOpen ? "rotate(90deg)" : "rotate(0deg)" }}
+                  style={{
+                    transform: auctionOpen ? "rotate(90deg)" : "rotate(0deg)",
+                  }}
                 >
                   &rarr;
                 </span>
               </button>
 
-              {/* Collapsible auction card */}
               <div
                 className="overflow-hidden transition-all duration-500 ease-in-out"
                 style={{
@@ -217,8 +214,18 @@ export default function ArtworkDetail() {
                       </div>
                       <div className="text-right">
                         <p className="text-xs font-semibold text-terracotta flex items-center justify-end gap-1 mb-1">
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <svg
+                            className="w-3 h-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                           </svg>
                           Ends In
                         </p>
@@ -228,9 +235,10 @@ export default function ArtworkDetail() {
                       </div>
                     </div>
 
-                    {/* Bid feedback messages */}
                     {bidSuccess && (
-                      <p className="text-green-600 text-sm mb-4">{bidSuccess}</p>
+                      <p className="text-green-600 text-sm mb-4">
+                        {bidSuccess}
+                      </p>
                     )}
                     {bidError && (
                       <p className="text-red-500 text-sm mb-4">{bidError}</p>
@@ -254,7 +262,9 @@ export default function ArtworkDetail() {
                         className="w-full border-b border-stone-200 py-3 bg-transparent text-stone-700 placeholder-stone-400 focus:outline-none focus:border-terracotta transition-colors"
                       />
                       <div className="relative">
-                        <span className="absolute left-0 top-3 text-stone-400">$</span>
+                        <span className="absolute left-0 top-3 text-stone-400">
+                          $
+                        </span>
                         <input
                           type="number"
                           placeholder="Offer Amount"
@@ -266,19 +276,29 @@ export default function ArtworkDetail() {
                           className="w-full border-b border-stone-200 py-3 pl-4 bg-transparent text-stone-700 placeholder-stone-400 focus:outline-none focus:border-terracotta transition-colors"
                         />
                       </div>
-                      
+
                       <button
                         type="submit"
                         disabled={bidLoading}
                         className="w-full bg-[#9c4a35] hover:bg-terracotta text-white font-medium py-4 rounded-lg mt-6 flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
                       >
-                        {bidLoading ? "Placing Bid..." : <>Place Bid <span>&rarr;</span></>}
+                        {bidLoading ? (
+                          "Placing Bid..."
+                        ) : (
+                          <>
+                            Place Bid <span>&rarr;</span>
+                          </>
+                        )}
                       </button>
                       <p className="text-[10px] text-stone-400 text-center font-medium uppercase tracking-wider mt-4">
                         By placing a bid, you agree to our{" "}
-                        <Link to="/terms" className="underline underline-offset-2 hover:text-terracotta transition-colors">
+                        <Link
+                          to="/terms"
+                          className="underline underline-offset-2 hover:text-terracotta transition-colors"
+                        >
                           Terms of Auction
-                        </Link>.
+                        </Link>
+                        .
                       </p>
                     </form>
                   </div>
@@ -286,7 +306,6 @@ export default function ArtworkDetail() {
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>

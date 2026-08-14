@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import AdminNav from "../components/AdminNav";
 import heroImage from "../assets/hero_rose_vintage.jpg";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export default function AdminDashboard() {
   // ── Upload Artwork state ──
@@ -271,7 +271,6 @@ export default function AdminDashboard() {
         <div className="absolute inset-0 bg-canvas/70" />
         <div className="relative z-10 p-6 md:p-10 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            
             {/* SECTION 1: Upload New Artwork */}
             <div className="flex flex-col">
               <h1 className="font-serif text-2xl text-stone-800 mb-4 font-semibold">
@@ -285,7 +284,9 @@ export default function AdminDashboard() {
                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
                 <div>
-                  <label className="block text-sm text-stone-600 mb-1">Title *</label>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Title *
+                  </label>
                   <input
                     type="text"
                     value={title}
@@ -345,7 +346,9 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-stone-600 mb-1">Image *</label>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Image *
+                  </label>
                   <input
                     type="file"
                     accept="image/*"
@@ -477,7 +480,9 @@ export default function AdminDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-stone-600 mb-1">Image *</label>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Image *
+                  </label>
                   <input
                     type="file"
                     accept="image/*"
@@ -509,10 +514,14 @@ export default function AdminDashboard() {
                 {poemMessage && (
                   <p className="text-green-600 text-sm">{poemMessage}</p>
                 )}
-                {poemError && <p className="text-red-500 text-sm">{poemError}</p>}
+                {poemError && (
+                  <p className="text-red-500 text-sm">{poemError}</p>
+                )}
 
                 <div>
-                  <label className="block text-sm text-stone-600 mb-1">Title *</label>
+                  <label className="block text-sm text-stone-600 mb-1">
+                    Title *
+                  </label>
                   <input
                     type="text"
                     value={poemTitle}
@@ -545,7 +554,6 @@ export default function AdminDashboard() {
                 </button>
               </form>
             </div>
-
           </div>
         </div>
       </div>
